@@ -34,11 +34,8 @@ tasks.processResources {
 
 tasks.jar { enabled = false }
 tasks.shadowJar {
-    val buildDate = providers.gradleProperty("buildDate").orNull
-    val buildVersion = project.version.toString()
-    val fileVersion = if (buildDate == null) buildVersion else "$buildDate-b$buildVersion"
     archiveClassifier.set("")
-    archiveFileName.set("HCHuskHomesGUI-$fileVersion.jar")
+    archiveFileName.set("HCHuskHomesGUI-${project.version}.jar")
     minimize()
     failOnDuplicateEntries = true
     filesMatching("META-INF/*.kotlin_module") {
