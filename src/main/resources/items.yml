@@ -1,0 +1,62 @@
+# Éléments réutilisables par les menus. Chaque shape-character peut être placé
+# dans la forme déclarée dans menus.yml. Les matériaux sont des Material Bukkit
+# standard : aucune dépendance Nexo n'est nécessaire.
+#
+# Les propriétés d'un objet Paper se déclarent sous `properties`. Les clefs
+# disponibles sont : unbreakable, enchantment-glint-override, hide-tooltip,
+# item-model, tooltip-style, fire-resistant, max-stack-size, rarity,
+# enchantable, item-flags, enchantments, can-break, can-place-on et
+# custom-model-data (floats, strings, flags). Les identifiants comme item-model
+# et les enchantements utilisent une clef namespacée, par exemple minecraft:stick.
+filler:
+  shape-character: "#"
+  item: BLACK_STAINED_GLASS_PANE
+  display-name: " "
+  properties:
+    hide-tooltip: true
+
+# Les deux états sont séparés : les clés `page-unavailable-item` de ces objets
+# peuvent être changées vers n'importe quel autre objet défini dans ce fichier.
+previous-page:
+  shape-character: "<"
+  item: STICK
+  display-name: "<yellow>Page précédente"
+  lore:
+    - "<gray>Revenir à la page précédente"
+  page-unavailable-item: previous-page-unavailable
+  actions: [ previous_page ]
+
+previous-page-unavailable:
+  item: BONE
+  display-name: "<dark_gray>Pas de page précédente"
+  properties:
+    hide-tooltip: true
+
+next-page:
+  shape-character: ">"
+  item: STICK
+  display-name: "<yellow>Page suivante"
+  lore:
+    - "<gray>Aller à la page suivante"
+  page-unavailable-item: next-page-unavailable
+  actions: [ next_page ]
+
+next-page-unavailable:
+  item: BONE
+  display-name: "<dark_gray>Pas de page suivante"
+  properties:
+    hide-tooltip: true
+
+close:
+  shape-character: "X"
+  item: BARRIER
+  display-name: "<red>Fermer"
+  actions: [ close_inventory ]
+
+back:
+  shape-character: "b"
+  item: SPECTRAL_ARROW
+  display-name: "<yellow>Retour"
+  lore:
+    - "<gray>Revenir au menu précédent"
+  actions: [ open_last_menu ]

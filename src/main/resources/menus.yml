@@ -1,0 +1,218 @@
+# Tous les menus, libellés, emplacements et actions du GUI sont éditables ici.
+# Les espaces dans une ligne ne sont utilisés que pour rendre la forme lisible.
+# Après modification, utilisez /hcplugins huskhomesgui reload.
+
+homes:
+  title: "<gold>Mes homes"
+  click-rate-limit: 4
+  shape:
+    - "# # # # # # # # #"
+    - "# x x x x x x x #"
+    - "# x x x x x x x #"
+    - "# x x x x x x x #"
+    - "# x x x x x x x #"
+    - "W # # < S > # # X"
+  paged-item: home
+  filters:
+    world:
+      selected-entry: "<green>▕ <u>%mode%</u>"
+      un-selected-entry: "<gray>▕ %mode%"
+      modes:
+        - text: "Tous les mondes"
+          streams: [ ]
+    sort:
+      selected-entry: "<green>▕ <u>%mode%</u>"
+      un-selected-entry: "<gray>▕ %mode%"
+      modes:
+        - text: "Ordre manuel"
+          streams: [ manual_sort ]
+        - text: "Favoris en premier"
+          streams: [ favorites_sort ]
+        - text: "Plus récents en premier"
+          streams: [ newest_sort ]
+        - text: "Plus proches en premier"
+          streams: [ closest_sort ]
+  items:
+    home:
+      shape-character: "x"
+      # %home_icon% utilise l'icône choisie par le joueur puis, sans choix,
+      # une icône vanilla correspondant au monde du home.
+      item: "%home_icon%"
+      display-name: "<gold>%home_name%"
+      lore:
+        - "<gray>%home_description%"
+        - ""
+        - "<gray>Monde : <white>%home_world%"
+        - "<gray>Position : <white>%home_x%, %home_y%, %home_z%"
+        - ""
+        - "<yellow>Clic gauche : se téléporter"
+        - "<yellow>Clic droit : modifier"
+        - "%favorite_instruction%"
+      actions:
+        - click-types: [ LEFT ]
+          execute: [ teleport_home ]
+        - click-types: [ RIGHT ]
+          execute: [ edit_home ]
+        - click-types: [ ALL_SHIFT ]
+          execute: [ set_favorite ]
+    world-filter:
+      shape-character: "W"
+      item: COMPASS
+      display-name: "<yellow>Filtrer les mondes"
+      lore:
+        - "%filter_lore:world%"
+        - ""
+        - "<gray>Clic gauche/droit pour changer"
+      actions: [ "change_filter_mode:world" ]
+    sorter:
+      shape-character: "S"
+      item: CLOCK
+      display-name: "<yellow>Trier les homes"
+      lore:
+        - "%filter_lore:sort%"
+        - ""
+        - "<gray>Clic gauche/droit pour changer"
+      actions: [ "change_filter_mode:sort" ]
+
+edit-home:
+  title: "<gold>Modifier : <white>%home_name%"
+  click-rate-limit: 4
+  shape:
+    - "# # # # # # # # #"
+    - "# I N D L O Q # #"
+    - "# # # U R b # X #"
+  items:
+    change-icon:
+      shape-character: "I"
+      item: "%home_icon%"
+      display-name: "<yellow>Icône"
+      lore:
+        - "<gray>Actuelle : <white>%home_icon_name%"
+        - ""
+        - "<yellow>Clic : choisir parmi tous les objets"
+        - "<yellow>Ou placez un objet sur votre curseur"
+      actions: [ change_icon ]
+    change-name:
+      shape-character: "N"
+      item: NAME_TAG
+      display-name: "<yellow>Renommer"
+      lore:
+        - "<gray>Actuel : <white>%home_name%"
+      actions: [ change_name ]
+    change-description:
+      shape-character: "D"
+      item: WRITABLE_BOOK
+      display-name: "<yellow>Description"
+      lore:
+        - "<gray>%home_description%"
+      actions: [ change_description ]
+    change-location:
+      shape-character: "L"
+      item: COMPASS
+      display-name: "<yellow>Déplacer"
+      lore:
+        - "<gray>Définir ce home à votre position actuelle"
+      actions: [ change_location ]
+    arrange-homes:
+      shape-character: "O"
+      item: CHEST
+      display-name: "<yellow>Organiser les icônes"
+      lore:
+        - "<gray>Choisissez leur ordre dans le menu des homes"
+      actions: [ arrange_homes ]
+    reset-icon:
+      shape-character: "Q"
+      item: BARRIER
+      display-name: "<red>Réinitialiser l'icône"
+      lore:
+        - "<gray>Revenir à l'icône de monde par défaut"
+      actions: [ reset_icon ]
+    move-up:
+      shape-character: "U"
+      item: ARROW
+      display-name: "<yellow>Déplacer vers le haut"
+      actions: [ move_home_up ]
+    move-down:
+      shape-character: "R"
+      item: ARROW
+      display-name: "<yellow>Déplacer vers le bas"
+      actions: [ move_home_down ]
+
+select-icon:
+  title: "<gold>Choisir une icône"
+  click-rate-limit: 3
+  shape:
+    - "# i i i i i i i #"
+    - "# i i i i i i i #"
+    - "# i i i i i i i #"
+    - "# i i i i i i i #"
+    - "# i i i i i i i #"
+    - "F # # < S > # b X"
+  paged-item: icon
+  filters:
+    category:
+      selected-entry: "<green>▕ <u>%mode%</u>"
+      un-selected-entry: "<gray>▕ %mode%"
+      modes:
+        - text: "Tous les objets"
+          streams: [ ]
+        - text: "Blocs"
+          streams: [ blocks_only ]
+        - text: "Outils et armures"
+          streams: [ tools_only ]
+        - text: "Minerais"
+          streams: [ ores_only ]
+        - text: "Bois"
+          streams: [ wood_only ]
+  items:
+    icon:
+      shape-character: "i"
+      item: "%icon_item%"
+      display-name: "<gold>%icon_name%"
+      lore:
+        - "<gray>%material_name%"
+        - ""
+        - "<yellow>Clic pour choisir cette icône"
+      actions: [ select_icon ]
+    category-filter:
+      shape-character: "F"
+      item: HOPPER
+      display-name: "<yellow>Filtrer les icônes"
+      lore:
+        - "%filter_lore:category%"
+      actions: [ "change_filter_mode:category" ]
+    search:
+      shape-character: "S"
+      item: SPYGLASS
+      display-name: "<yellow>Rechercher une icône"
+      lore:
+        - "<gray>Actuelle : <white>%icon_search%"
+        - ""
+        - "<yellow>Clic gauche : rechercher"
+        - "<yellow>Clic droit : effacer"
+      actions:
+        - click-types: [ LEFT ]
+          execute: [ search_icon ]
+        - click-types: [ RIGHT ]
+          execute: [ clear_search ]
+
+arrange-homes:
+  title: "<gold>Organiser les homes"
+  click-rate-limit: 3
+  shape:
+    - "# r r r r r r r #"
+    - "# r r r r r r r #"
+    - "# r r r r r r r #"
+    - "# r r r r r r r #"
+    - "# r r r r r r r #"
+    - "# # # < # > # b X"
+  paged-item: ordered-home
+  items:
+    ordered-home:
+      shape-character: "r"
+      item: "%home_icon%"
+      display-name: "<gold>%home_name%"
+      lore:
+        - "%order_selected%"
+        - "<gray>Cliquez deux homes pour échanger leurs positions."
+      actions: [ select_order_home ]

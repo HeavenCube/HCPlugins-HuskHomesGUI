@@ -1,0 +1,23 @@
+no-permission: "<red>Le rechargement de HCHuskHomesGUI est réservé aux opérateurs."
+reload: "<green>Configuration de HCHuskHomesGUI rechargée."
+reload-failed: "<red>Le rechargement de la configuration a échoué. Consultez la console."
+no-teleport-permission: "<red>Vous ne pouvez pas vous téléporter à ce home."
+home-edit-failed: "<red>HuskHomes a refusé cette modification."
+home-edit-permission: "<red>Vous ne pouvez pas modifier ce home."
+
+# Les dialogues Paper utilisent aussi cette locale : leurs titres, boutons et
+# libellés peuvent donc être adaptés sans modifier le JAR.
+dialog-confirm: "<green>Confirmer"
+dialog-cancel: "<red>Annuler"
+dialog-rename-title: "<gold>Renommer le home"
+dialog-rename-label: "<yellow>Nom"
+dialog-description-title: "<gold>Modifier la description"
+dialog-description-label: "<yellow>Description"
+dialog-relocate-title: "<gold>Déplacer le home"
+dialog-relocate-message: "<gray>Utiliser votre position actuelle pour ce home ?"
+dialog-cursor-icon-title: "<gold>Utiliser l'objet du curseur"
+dialog-cursor-icon-message: "<gray>Conserver cet objet comme icône de <white>%home_name%<gray> ?"
+dialog-icon-title: "<gold>Choisir l'icône"
+dialog-icon-message: "<gray>Utiliser <white>%icon_name%<gray> comme icône de ce home ?"
+dialog-search-title: "<gold>Rechercher une icône"
+dialog-search-label: "<yellow>Nom du matériau"

@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: HeavenCube/HCPlugins-actions/.github/workflows/build.yml@main
+    with:
+      project-name: HCHuskHomesGUI
+      artifact-path: build/libs/HCHuskHomesGUI-*.jar
+      core-source: true
+    secrets: inherit
