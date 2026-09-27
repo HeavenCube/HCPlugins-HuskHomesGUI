@@ -8,3 +8,7 @@ autorisation écrite préalable. Voir [LICENSE](LICENSE).
 
 Cloner `HCPlugins-Core` à côté de ce dépôt, puis lancer `./gradlew build`.
 HCCore et HuskHomes sont requis sur le serveur ; PlaceholderAPI est optionnel.
+
+Les fichiers `items.yml`, `menus.yml` et `locale.yml` se trouvent dans
+`plugins/HCPlugins/HCHuskHomesGUI/`. Les anciens fichiers situés dans
+`plugins/HCHuskHomesGUI/` ne sont pas repris automatiquement.

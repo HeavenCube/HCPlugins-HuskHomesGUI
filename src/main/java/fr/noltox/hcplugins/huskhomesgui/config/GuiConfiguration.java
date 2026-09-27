@@ -4,6 +4,7 @@ import de.exlll.configlib.Configuration;
 import de.exlll.configlib.SerializeWith;
 import de.exlll.configlib.Serializer;
 import fr.noltox.hcconfig.HCConfigurations;
+import fr.noltox.hcplugins.core.api.config.HCPluginFiles;
 import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
@@ -15,8 +16,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -79,7 +78,7 @@ public final class GuiConfiguration {
     public static GuiConfiguration load(JavaPlugin plugin) {
         saveDefaultFiles(plugin);
 
-        Path dataFolder = plugin.getDataFolder().toPath();
+        Path dataFolder = HCPluginFiles.pluginDirectory(plugin);
         SharedItemsConfig sharedConfig = HCConfigurations.load(
                 dataFolder.resolve(ITEMS_FILE),
                 SharedItemsConfig.class
@@ -103,17 +102,9 @@ public final class GuiConfiguration {
     }
 
     private static void saveDefaultFiles(JavaPlugin plugin) {
-        try {
-            Files.createDirectories(plugin.getDataFolder().toPath());
-        } catch (IOException exception) {
-            throw new IllegalStateException("Unable to create the plugin data directory", exception);
-        }
-
         for (String fileName : CONFIGURATION_FILES) {
-            Path path = plugin.getDataFolder().toPath().resolve(fileName);
-            if (!Files.exists(path)) {
-                plugin.saveResource(fileName, false);
-            }
+            Path path = HCPluginFiles.pluginDirectory(plugin).resolve(fileName);
+            HCPluginFiles.copyDefault(plugin, fileName, path);
         }
     }
 
