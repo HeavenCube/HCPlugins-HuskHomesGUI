@@ -698,9 +698,6 @@ public final class GuiConfiguration {
     }
 
     public record Messages(
-            Component noPermission,
-            Component reload,
-            Component reloadFailed,
             Component noTeleportPermission,
             Component homeEditFailed,
             Component homeEditPermission,
@@ -724,9 +721,6 @@ public final class GuiConfiguration {
 
     @Configuration
     public record LocaleConfig(
-            String noPermission,
-            String reload,
-            String reloadFailed,
             String noTeleportPermission,
             String homeEditFailed,
             String homeEditPermission,
@@ -747,9 +741,6 @@ public final class GuiConfiguration {
     ) {
         public Messages toMessages() {
             Map<String, Component> map = new LinkedHashMap<>();
-            put(map, "no-permission", noPermission, "<red>Vous n'avez pas la permission de faire cela.");
-            put(map, "reload", reload, "<green>Configuration du GUI rechargée.");
-            put(map, "reload-failed", reloadFailed, "<red>Le rechargement de la configuration a échoué. Consultez la console.");
             put(map, "no-teleport-permission", noTeleportPermission, "<red>Vous ne pouvez pas vous téléporter à ce home.");
             put(map, "home-edit-failed", homeEditFailed, "<red>HuskHomes a refusé cette modification.");
             put(map, "home-edit-permission", homeEditPermission, "<red>Vous ne pouvez pas modifier ce home.");
@@ -768,9 +759,6 @@ public final class GuiConfiguration {
             put(map, "dialog-search-title", dialogSearchTitle, "<gold>Rechercher une icône");
             put(map, "dialog-search-label", dialogSearchLabel, "<yellow>Nom du matériau");
             return new Messages(
-                    map.get("no-permission"),
-                    map.get("reload"),
-                    map.get("reload-failed"),
                     map.get("no-teleport-permission"),
                     map.get("home-edit-failed"),
                     map.get("home-edit-permission"),

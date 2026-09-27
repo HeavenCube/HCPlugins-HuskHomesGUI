@@ -1,6 +1,3 @@
-no-permission: "<red>Le rechargement de HCHuskHomesGUI est réservé aux opérateurs."
-reload: "<green>Configuration de HCHuskHomesGUI rechargée."
-reload-failed: "<red>Le rechargement de la configuration a échoué. Consultez la console."
 no-teleport-permission: "<red>Vous ne pouvez pas vous téléporter à ce home."
 home-edit-failed: "<red>HuskHomes a refusé cette modification."
 home-edit-permission: "<red>Vous ne pouvez pas modifier ce home."

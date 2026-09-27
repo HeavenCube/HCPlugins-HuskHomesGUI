@@ -23,7 +23,7 @@ public final class HCHuskHomesGUI extends JavaPlugin {
                 this
         );
 
-        HomesCommand commands = new HomesCommand(homesMenu, getLogger());
+        HomesCommand commands = new HomesCommand(this, HCPluginsCore.translations(this), homesMenu, getLogger());
         commandRegistration = HCPluginsCore.require(this).register(
                 this,
                 "huskhomesgui",
