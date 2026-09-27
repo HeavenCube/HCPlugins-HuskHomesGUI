@@ -1,6 +1,6 @@
 package fr.noltox.hcplugins.huskhomesgui.gui;
 
-import fr.noltox.hcplugins.huskhomesgui.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import me.clip.placeholderapi.PlaceholderAPI;
 import fr.noltox.hcplugins.huskhomesgui.config.GuiConfiguration;
 import io.papermc.paper.block.BlockPredicate;

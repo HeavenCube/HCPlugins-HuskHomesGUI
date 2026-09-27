@@ -4,7 +4,7 @@ import de.exlll.configlib.Configuration;
 import de.exlll.configlib.SerializeWith;
 import de.exlll.configlib.Serializer;
 import fr.noltox.hcconfig.HCConfigurations;
-import fr.noltox.hcplugins.huskhomesgui.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;

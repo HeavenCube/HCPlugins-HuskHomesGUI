@@ -1,6 +1,6 @@
 package fr.noltox.hcplugins.huskhomesgui.gui;
 
-import fr.noltox.hcplugins.huskhomesgui.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import fr.noltox.hcplugins.huskhomesgui.config.GuiConfiguration;
 import net.kyori.adventure.text.Component;
 import net.william278.huskhomes.api.HuskHomesAPI;
