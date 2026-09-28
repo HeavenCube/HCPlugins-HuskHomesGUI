@@ -12,3 +12,11 @@ HCCore et HuskHomes sont requis sur le serveur ; PlaceholderAPI est optionnel.
 Les fichiers `items.yml`, `menus.yml` et `locale.yml` se trouvent dans
 `plugins/HCPlugins/HCHuskHomesGUI/`. Les anciens fichiers situés dans
 `plugins/HCHuskHomesGUI/` ne sont pas repris automatiquement.
+
+## Maintenance et documentation technique
+
+HCCore est obligatoire. Pour toute modification technique, commencer par [AGENTS.md](AGENTS.md),
+puis [le guide du plugin](docs/TECHNICAL.md) et le Core voisin.
+Le [guide commun](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/ECOSYSTEM.md) décrit les conventions de toute la suite.
+`CLAUDE.md` et `GEMINI.md` renvoient aux mêmes instructions, sans copie des règles.
+Le catalogue commun `plugins/HCPlugins/translations.yml` se recharge par `/hcplugins core reload`.
