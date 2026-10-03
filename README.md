@@ -1,5 +1,8 @@
 # HCPlugins-HuskHomesGUI
 
+**CI :** sources/ressources/build seulement ; docs seules sans runner. Pour les exceptions,
+voir [la politique CI et les marqueurs de skip](https://github.com/HeavenCube/HCPlugins-actions/blob/main/docs/CI_COSTS.md).
+
 Plugin Paper d'interface de homes HuskHomes, avec InvUI et ConfigLib embarqués.
 
 **Licence :** code source consultable et contributions bienvenues, mais usage

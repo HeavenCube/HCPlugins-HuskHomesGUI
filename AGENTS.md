@@ -1,5 +1,9 @@
 # Instructions — HCPlugins-HuskHomesGUI
 
+- CI : docs seules => aucun build/release manuel ; si commit autorisé, ajouter [skip ci].
+  [ci-skip] : alias sur dernier commit push ou titre PR ; jamais pour code/tests/assets/build.
+  Politique : https://github.com/HeavenCube/HCPlugins-actions/blob/main/docs/CI_COSTS.md.
+
 ## Démarrage et lecture ciblée
 
 1. Lire ce fichier, `git status --short`, puis l’entrée pertinente de [docs/TECHNICAL.md](docs/TECHNICAL.md).
