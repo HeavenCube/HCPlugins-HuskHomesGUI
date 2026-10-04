@@ -65,6 +65,12 @@ maintient les dépendances. Une mise à jour de dépendance doit conserver ces c
 
 ## Invariants et zones à risque
 
+- Audit performance : `LazyMenuIcon` prépare l'icône à sa première apparition, sur le serveur,
+  puis la conserve seulement pour cette ouverture. Recréer ces objets pour un filtre/reload ;
+  ne pas partager un renderer capturant un Player entre viewers ni le déplacer en async.
+  Les tags identiques ne déclenchent plus une sauvegarde HuskHomes ; le tri par distance
+  capture une seule position du joueur. [Rapport global](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/PERFORMANCE_AUDIT.md).
+
 - Plugin serveur `HCHuskHomesGUI`, HCCore obligatoire ; module `huskhomesgui`.
 - HCCore et HuskHomes obligatoires ; PlaceholderAPI facultatif.
 - Ne pas ajouter cache de homes ou base de données indépendante : HuskHomes est propriétaire des homes.

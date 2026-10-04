@@ -22,7 +22,6 @@ import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
@@ -49,8 +48,9 @@ public final class HomesMenu {
 
     private final JavaPlugin plugin;
     private final HuskHomesAPI huskHomes;
-    private final Map<UUID, Integer> lastClickTicks = new ConcurrentHashMap<>();
-    private final Map<UUID, OpenWindow> openWindows = new ConcurrentHashMap<>();
+    // HomeListEvent, InvUI actions and native dialog callbacks are handled on the server thread.
+    private final Map<UUID, Integer> lastClickTicks = new HashMap<>();
+    private final Map<UUID, OpenWindow> openWindows = new HashMap<>();
     private volatile GuiConfiguration configuration;
     private volatile boolean active = true;
     private long generation;
@@ -173,15 +173,13 @@ public final class HomesMenu {
                 || name.contains("MANGROVE") || name.contains("CHERRY");
     }
 
-    private static double distanceSquared(Player player, Home home) {
-        org.bukkit.World world = Bukkit.getWorld(home.getWorld().getUuid());
-        if (world == null || !world.equals(player.getWorld())) {
+    private static double distanceSquared(UUID worldId, org.bukkit.Location origin, Home home) {
+        if (!worldId.equals(home.getWorld().getUuid())) {
             return Double.MAX_VALUE;
         }
-        var location = player.getLocation();
-        double x = location.getX() - home.getX();
-        double y = location.getY() - home.getY();
-        double z = location.getZ() - home.getZ();
+        double x = origin.getX() - home.getX();
+        double y = origin.getY() - home.getY();
+        double z = origin.getZ() - home.getZ();
         return x * x + y * y + z * z;
     }
 
@@ -547,13 +545,13 @@ public final class HomesMenu {
             Consumer<String> execute
     ) {
         GuiConfiguration.MenuItemDefinition item = menu.pagedItem();
-        ItemStack icon = new ItemStack(material);
-        Map<String, String> placeholders = Map.of(
-                "icon_name", translationTag(icon),
-                "material_name", translationTag(icon)
-        );
         return Item.builder()
-                .setItemProvider(MenuItemRenderer.render(player, item, null, icon, placeholders, false))
+                .setItemProvider(new LazyMenuIcon<>(() -> {
+                    ItemStack icon = new ItemStack(material);
+                    String name = translationTag(icon);
+                    Map<String, String> placeholders = Map.of("icon_name", name, "material_name", name);
+                    return MenuItemRenderer.render(player, item, null, icon, placeholders, false);
+                }))
                 .addClickHandler((clickedItem, click) -> {
                     if (!allowsClick(click.player(), menu.clickRateLimit())) {
                         return;
@@ -636,8 +634,11 @@ public final class HomesMenu {
                     case "newest_sort" -> comparator = Comparator.comparing(
                             (Home home) -> home.getMeta().getCreationTime()).reversed();
                     case "oldest_sort" -> comparator = Comparator.comparing(home -> home.getMeta().getCreationTime());
-                    case "closest_sort" ->
-                            comparator = Comparator.comparingDouble(home -> distanceSquared(player, home));
+                    case "closest_sort" -> {
+                        UUID worldId = player.getWorld().getUID();
+                        var origin = player.getLocation();
+                        comparator = Comparator.comparingDouble(home -> distanceSquared(worldId, origin, home));
+                    }
                     case "favorites_sort" -> comparator = Comparator.comparing(HomePreferences::favorite).reversed()
                             .thenComparing(HomePreferences.manualOrder());
                     case "alphabetical_asc_sort" ->

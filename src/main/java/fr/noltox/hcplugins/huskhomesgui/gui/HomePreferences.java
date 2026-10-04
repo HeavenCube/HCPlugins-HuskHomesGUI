@@ -97,7 +97,8 @@ final class HomePreferences {
         if (index < 0 || target < 0 || target >= ordered.size()) {
             return;
         }
-        swapOrder(huskHomes, ordered, home, ordered.get(target));
+        Collections.swap(ordered, index, target);
+        saveOrder(huskHomes, ordered);
     }
 
     private static void saveOrder(HuskHomesAPI huskHomes, List<Home> homes) {
@@ -110,6 +111,9 @@ final class HomePreferences {
     private static void updateTags(HuskHomesAPI huskHomes, Home home, Consumer<Map<String, String>> update) {
         Map<String, String> tags = new HashMap<>(home.getMeta().getTags());
         update.accept(tags);
+        if (tags.equals(home.getMeta().getTags())) {
+            return;
+        }
         Map<String, String> savedTags = Map.copyOf(tags);
         home.getMeta().setTags(savedTags);
         huskHomes.setHomeMetaTags(home, savedTags);
