@@ -2,6 +2,9 @@
 
 ## Point d’entrée
 
+Cible : Paper 26.3 (`26.3.build.+`), Java 25 sans preview. Compilation avec `-Xlint:all` ;
+examiner les warnings avant de les attribuer au plugin ou à une dépendance.
+
 Ce dépôt appartient à la suite privée d’usage HeavenCube, publiée comme source consultable.
 Il dépend obligatoirement de HCCore. Lire d’abord [AGENTS.md](../AGENTS.md), puis le Core voisin.
 Le [guide commun](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/ECOSYSTEM.md) décrit les règles Java/Paper, les contrats Core,
@@ -76,6 +79,11 @@ un loader YAML, un registre de commandes ou un catalogue de traductions. Garder 
 thread réel, puis revalider le contexte avant mutation.
 
 ## Validation et limites
+
+InvUI 2.5.1 est embarqué pour le support Minecraft 26.3. Le reload valide tous les fichiers,
+invalide les callbacks de l’ancienne génération et ferme ses fenêtres avant d’activer le candidat.
+Les filtres conservent leur ordre YAML, y compris lorsqu’ils remplacent le tri courant.
+`GuiConfigurationTest` couvre le chargement ConfigLib et l’ordre/immutabilité des filtres.
 
 `GuiConfigurationTest` existe. Pour packaging : contrôler présence des bibliothèques relocalisées et notices, absence d’APIs serveur embarquées. En jeu : GUI avec/sans PlaceholderAPI, navigation/recherche, éditions, favoris, icônes, permissions, reload avec GUI ouverte et fermeture du plugin.
 

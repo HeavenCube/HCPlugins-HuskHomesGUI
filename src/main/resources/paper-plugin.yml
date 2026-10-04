@@ -1,7 +1,7 @@
 name: HCHuskHomesGUI
 version: "${version}"
 main: fr.noltox.hcplugins.huskhomesgui.HCHuskHomesGUI
-api-version: "26.2"
+api-version: "26.3"
 description: Affiche les homes HuskHomes des joueurs dans une interface InvUI configurable.
 author: Noltox
 website: https://heavencube.fr/

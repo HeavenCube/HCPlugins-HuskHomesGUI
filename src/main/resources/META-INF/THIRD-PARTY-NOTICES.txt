@@ -3,7 +3,7 @@ HCHuskHomesGUI third-party notices
 
 This distribution bundles the following libraries:
 
-- InvUI 2.2.0
+- InvUI 2.5.1
   Source: https://github.com/NichtStudioCode/InvUI
   Copyright (c) 2024 NichtStudioCode
   License: MIT License (reproduced below)

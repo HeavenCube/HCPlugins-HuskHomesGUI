@@ -7,11 +7,36 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GuiConfigurationTest {
+
+    @Test
+    void keepsFilterOrderAndTakesImmutableSnapshots() {
+        var source = new LinkedHashMap<String, GuiConfiguration.FilterConfig>();
+        var filter = new GuiConfiguration.FilterConfig("selected", "unselected", List.of());
+        source.put("distance", filter);
+        source.put("alphabetical", filter);
+        var config = new GuiConfiguration.MenuConfig("title", 0, List.of(), "", source, Map.of());
+        source.clear();
+        assertEquals(List.of("distance", "alphabetical"), List.copyOf(config.filters().keySet()));
+        assertThrows(UnsupportedOperationException.class, () -> config.filters().clear());
+
+        var runtime = new LinkedHashMap<String, GuiConfiguration.FilterDefinition>();
+        runtime.put("distance", new GuiConfiguration.FilterDefinition("distance", "", "", List.of()));
+        runtime.put("alphabetical", new GuiConfiguration.FilterDefinition("alphabetical", "", "", List.of()));
+        var menu = new GuiConfiguration.MenuDefinition("homes", "", List.of(), 0, null, Map.of(), Map.of(), runtime);
+        runtime.clear();
+        assertEquals(List.of("distance", "alphabetical"), List.copyOf(menu.filters().keySet()));
+        assertThrows(UnsupportedOperationException.class, () -> menu.filters().clear());
+    }
 
     @Test
     void loadsBundledConfigurationsViaConfigLib(@TempDir Path tempDir) throws Exception {

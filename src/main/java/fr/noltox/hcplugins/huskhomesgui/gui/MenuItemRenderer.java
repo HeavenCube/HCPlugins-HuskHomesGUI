@@ -165,7 +165,6 @@ final class MenuItemRenderer {
         };
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private static void applyProperties(
             ItemMeta meta,
             GuiConfiguration.ItemProperties properties

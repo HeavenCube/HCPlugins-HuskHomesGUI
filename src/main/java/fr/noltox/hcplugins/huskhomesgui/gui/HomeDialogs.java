@@ -19,7 +19,6 @@ import java.util.function.Consumer;
 /**
  * Small wrappers around Paper's native client dialogs.
  */
-@SuppressWarnings("UnstableApiUsage")
 final class HomeDialogs {
 
     private HomeDialogs() {

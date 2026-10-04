@@ -14,7 +14,7 @@ consulter [son guide](https://github.com/HeavenCube/HCPlugins-Core/blob/main/doc
 
 ## Contrat commun
 
-- Java 25, sans preview ; conserver toolchain, release 25 et Paper déclaré par le build (26.2 actuellement).
+- Java 25, sans preview ; conserver toolchain, release 25 et Paper déclaré par le build (26.3 actuellement).
 - APIs publiques Paper modernes et Adventure en priorité ; vérifier signatures dans les sources/docs et compiler.
 - Records, pattern matching, switch expressions et collections immuables quand utiles ; simplicité et mesure
   avant micro-optimisation. Virtual threads pour I/O indépendantes seulement, jamais pour état Bukkit.

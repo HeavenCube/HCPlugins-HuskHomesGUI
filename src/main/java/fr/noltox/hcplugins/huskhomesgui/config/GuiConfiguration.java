@@ -372,7 +372,7 @@ public final class GuiConfiguration {
                     List.copyOf(modes)
             ));
         }
-        return Map.copyOf(filters);
+        return Collections.unmodifiableMap(filters);
     }
 
     private static void addDefaultItems(
@@ -524,7 +524,8 @@ public final class GuiConfiguration {
             shape = List.copyOf(shape);
             items = Map.copyOf(items);
             staticItems = Map.copyOf(staticItems);
-            filters = Map.copyOf(filters);
+            // Sorting streams are applied in configuration order; Map.copyOf does not preserve it.
+            filters = Collections.unmodifiableMap(new LinkedHashMap<>(filters));
         }
 
         @Override
@@ -814,7 +815,7 @@ public final class GuiConfiguration {
     ) {
         public MenuConfig {
             shape = shape == null ? List.of() : List.copyOf(shape);
-            filters = filters == null ? Map.of() : Map.copyOf(filters);
+            filters = filters == null ? Map.of() : Collections.unmodifiableMap(new LinkedHashMap<>(filters));
             items = items == null ? Map.of() : Map.copyOf(items);
         }
 

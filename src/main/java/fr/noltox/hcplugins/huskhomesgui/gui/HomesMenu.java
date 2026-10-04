@@ -24,6 +24,7 @@ import xyz.xenondevs.invui.window.Window;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
 
 import static fr.noltox.hcplugins.huskhomesgui.config.MenuActions.*;
@@ -52,6 +53,7 @@ public final class HomesMenu {
     private final Map<UUID, OpenWindow> openWindows = new ConcurrentHashMap<>();
     private volatile GuiConfiguration configuration;
     private volatile boolean active = true;
+    private long generation;
 
     public HomesMenu(JavaPlugin plugin, HuskHomesAPI huskHomes) {
         this.plugin = plugin;
@@ -206,7 +208,10 @@ public final class HomesMenu {
         if (!active) {
             throw new IllegalStateException("Le gestionnaire de homes est arrêté.");
         }
-        this.configuration = GuiConfiguration.load(plugin);
+        GuiConfiguration candidate = GuiConfiguration.load(plugin);
+        generation++;
+        closeWindows();
+        this.configuration = candidate;
     }
 
     public void open(Player player, OnlineUser viewer, List<Home> homes) {
@@ -221,6 +226,11 @@ public final class HomesMenu {
      */
     public void shutdown() {
         active = false;
+        generation++;
+        closeWindows();
+    }
+
+    private void closeWindows() {
         List<UUID> viewers = List.copyOf(openWindows.keySet());
         openWindows.clear();
         lastClickTicks.clear();
@@ -299,7 +309,7 @@ public final class HomesMenu {
             }
             case "change_name" -> HomeDialogs.text(
                     player,
-                    () -> active,
+                    dialogActive(),
                     message("dialog-rename-title", "Renommer le home"),
                     message("dialog-rename-label", "Nom"),
                     dialogConfirm(),
@@ -310,7 +320,7 @@ public final class HomesMenu {
             );
             case "change_description" -> HomeDialogs.text(
                     player,
-                    () -> active,
+                    dialogActive(),
                     message("dialog-description-title", "Modifier la description"),
                     message("dialog-description-label", "Description"),
                     dialogConfirm(),
@@ -321,7 +331,7 @@ public final class HomesMenu {
             );
             case "change_location" -> HomeDialogs.confirm(
                     player,
-                    () -> active,
+                    dialogActive(),
                     message("dialog-relocate-title", "Déplacer le home"),
                     message("dialog-relocate-message", "Utiliser votre position actuelle pour ce home ?"),
                     new ItemStack(Material.COMPASS),
@@ -361,7 +371,7 @@ public final class HomesMenu {
         chosen.setAmount(1);
         HomeDialogs.confirm(
                 player,
-                () -> active,
+                dialogActive(),
                 message("dialog-cursor-icon-title", "Utiliser l'objet du curseur"),
                 message("dialog-cursor-icon-message", "Conserver cet objet comme icône de %home_name% ?")
                         .replaceText(builder -> builder.matchLiteral("%home_name%").replacement(home.getName())),
@@ -405,7 +415,7 @@ public final class HomesMenu {
                     ItemStack selected = new ItemStack(material);
                     HomeDialogs.confirm(
                             session.player(),
-                            () -> active,
+                            dialogActive(),
                             message("dialog-icon-title", "Choisir l'icône"),
                             message("dialog-icon-message", "Utiliser %icon_name% comme icône de ce home ?")
                                     .replaceText(builder -> builder.matchLiteral("%icon_name%")
@@ -435,7 +445,7 @@ public final class HomesMenu {
                 case "clear_search" -> openIconPicker(session, home, filters, "");
                 case "search_icon" -> HomeDialogs.text(
                         click.player(),
-                        () -> active,
+                        dialogActive(),
                         message("dialog-search-title", "Rechercher une icône"),
                         message("dialog-search-label", "Nom du matériau"),
                         dialogConfirm(),
@@ -670,6 +680,7 @@ public final class HomesMenu {
             Map<String, String> placeholders,
             Runnable onEscape
     ) {
+        long openedGeneration = generation;
         OpenWindow openWindow = new OpenWindow();
         openWindows.put(player.getUniqueId(), openWindow);
         Window.builder()
@@ -680,10 +691,10 @@ public final class HomesMenu {
                         return;
                     }
                     lastClickTicks.remove(player.getUniqueId());
-                    if (active && reason == InventoryCloseEvent.Reason.PLAYER
+                    if (active && generation == openedGeneration && reason == InventoryCloseEvent.Reason.PLAYER
                             && onEscape != null) {
                         plugin.getServer().getScheduler().runTask(plugin, () -> {
-                            if (active && player.isOnline()) {
+                            if (active && generation == openedGeneration && player.isOnline()) {
                                 onEscape.run();
                             }
                         });
@@ -732,11 +743,17 @@ public final class HomesMenu {
     }
 
     private void refreshAfterHuskHomesEdit(Session session, Home home) {
+        long requestedGeneration = generation;
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (active && session.player().isOnline()) {
+            if (active && generation == requestedGeneration && session.player().isOnline()) {
                 openEdit(session, home);
             }
         }, 2L);
+    }
+
+    private BooleanSupplier dialogActive() {
+        long openedGeneration = generation;
+        return () -> active && generation == openedGeneration;
     }
 
     @FunctionalInterface

@@ -1,5 +1,7 @@
 # HCPlugins-HuskHomesGUI
 
+**Cible : Paper/Minecraft 26.3 exclusivement, Java 25.** Le build utilise `26.3.build.+`.
+
 **CI :** sources/ressources/build seulement ; docs seules sans runner. Pour les exceptions,
 voir [la politique CI et les marqueurs de skip](https://github.com/HeavenCube/HCPlugins-actions/blob/main/docs/CI_COSTS.md).
 
