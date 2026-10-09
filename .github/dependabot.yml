@@ -1,8 +1,18 @@
 version: 2
 
+# Public Maven hosts must also be allowed by Dependabot's network proxy.
+registries:
+  huskhomes:
+    type: maven-repository
+    url: https://repo.william278.net/releases
+  invui:
+    type: maven-repository
+    url: https://repo.xenondevs.xyz/releases
+
 updates:
   - package-ecosystem: gradle
     directory: /
+    registries: [huskhomes, invui]
     schedule:
       interval: weekly
     labels: [dependencies]

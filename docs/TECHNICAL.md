@@ -63,6 +63,14 @@ HomeListListener prend les événements HuskHomes pour ouvrir HomesMenu. Les ses
 `.github/workflows/build.yml` appelle les actions partagées à `@main` ; `.github/dependabot.yml`
 maintient les dépendances. Une mise à jour de dépendance doit conserver ces contrats.
 
+### Vérifications Dependabot
+
+Les registres publics HuskHomes et InvUI sont déclarés dans `.github/dependabot.yml` et référencés
+par le job Gradle pour autoriser leurs domaines dans le proxy réseau Dependabot, sans identifiants.
+Les URLs de `settings.gradle.kts` seules n'autorisent pas ces accès. Un journal contenant
+`egress not allowlisted` signale un refus réseau pouvant être présenté comme une erreur
+d'authentification ; ne pas envoyer le token Git Core à ces registres Maven.
+
 ## Invariants et zones à risque
 
 - Audit performance : `LazyMenuIcon` prépare l'icône à sa première apparition, sur le serveur,
